@@ -95,5 +95,12 @@
          "yarn workspace @scaffold-eth/hardhat format",
          "yarn workspace @scaffold-eth/hardhat solhint --fix"
       ]
+   },
+   "dependencies": {
+      "@pinata/sdk": "^1.1.23",
+      "http-browserify": "^1.7.0",
+      "node-libs-browser": "^2.2.1",
+      "react": "^17.0.2",
+      "stream": "^0.0.2"
    }
 }

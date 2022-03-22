@@ -14,7 +14,7 @@ import { useScaffoldHooksExamples as useScaffoldHooksExamples } from './componen
 
 import { useBurnerFallback } from '~~/components/main/hooks/useBurnerFallback';
 import { useScaffoldProviders as useScaffoldAppProviders } from '~~/components/main/hooks/useScaffoldAppProviders';
-import { Hints, ExampleUI } from '~~/components/pages';
+import { Hints, ExampleUI, Custom } from '~~/components/pages';
 import { BURNER_FALLBACK_ENABLED, MAINNET_PROVIDER } from '~~/config/appConfig';
 import { useAppContracts, useConnectAppContracts, useLoadAppContracts } from '~~/config/contractContext';
 import { NETWORKS } from '~~/models/constants/networks';
@@ -75,15 +75,16 @@ export const Main: FC = () => {
   const mainnetDai = useAppContracts('DAI', NETWORKS.mainnet.chainId);
 
   // keep track of a variable from the contract in the local React state:
-  const [purpose, update] = useContractReader(
-    yourContract,
-    yourContract?.purpose,
-    [],
-    yourContract?.filters.SetPurpose()
-  );
+  // const [purpose, update] = useContractReader(
+  //   yourContract,
+  //   // yourContract?.purpose,
+  //   // [],
+  //   // yourContract?.filters.SetPurpose()
+  //   // yourContract?.safeMint()
+  // );
 
   // 📟 Listen for broadcast events
-  const [setPurposeEvents] = useEventListener(yourContract, 'SetPurpose', 0);
+  // const [setPurposeEvents] = useEventListener(yourContract, 'SetPurpose', 0);
 
   // -----------------------------
   // .... 🎇 End of examples
@@ -111,6 +112,17 @@ export const Main: FC = () => {
             <MainPageContracts scaffoldAppProviders={scaffoldAppProviders} />
           </Route>
           {/* you can add routes here like the below examlples */}
+
+          <Route path="/custom">
+            <Custom
+              mainnetProvider={scaffoldAppProviders.mainnetAdaptor?.provider}
+              yourCurrentBalance={yourCurrentBalance}
+              price={ethPrice}
+            />
+          </Route>
+
+
+
           <Route path="/hints">
             <Hints
               address={ethersContext?.account ?? ''}
@@ -119,6 +131,7 @@ export const Main: FC = () => {
               price={ethPrice}
             />
           </Route>
+
           <Route path="/exampleui">
             <ExampleUI
               mainnetProvider={scaffoldAppProviders.mainnetAdaptor?.provider}
@@ -146,6 +159,6 @@ export const Main: FC = () => {
       </BrowserRouter>
 
       <MainPageFooter scaffoldAppProviders={scaffoldAppProviders} price={ethPrice} />
-    </div>
+    </div >
   );
 };

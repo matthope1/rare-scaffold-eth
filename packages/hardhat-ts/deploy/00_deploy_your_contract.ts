@@ -5,12 +5,17 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
   const { getNamedAccounts, deployments } = hre;
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
+
+  console.log("deploying the contract")
+
   await deploy('YourContract', {
     // Learn more about args here: https://www.npmjs.com/package/hardhat-deploy#deploymentsdeploy
     from: deployer,
     // args: ["Hello"],
     log: true,
   });
+
+  const testing = "test"
 
   /*
     // Getting a previously deployed contract
