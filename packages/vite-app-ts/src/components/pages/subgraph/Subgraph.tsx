@@ -183,9 +183,9 @@ export const Subgraph: FC<ISubgraphProps> = (props) => {
           />
           <Button
             onClick={(): void => {
-              console.log('newPurpose', newPurpose);
+              console.log('newPurpose clicked...', newPurpose);
               /* look how you call setPurpose on your contract: */
-              void tx?.(yourContract?.setPurpose(newPurpose));
+              // void tx?.(yourContract?.setPurpose(newPurpose));
             }}>
             Set Purpose
           </Button>
