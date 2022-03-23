@@ -1,3 +1,18 @@
+
+const isProd = process.env.ENVIRONMENT === 'PRODUCTION';
+
+let url
+if (isProd) {
+  url = 'back.rare.store/api';
+  console.log("Constants.js: we are on prod")
+} else {
+  url = 'http://localhost:3003/api'
+  console.log("Constants.js: we are on dev")
+}
+
+export const API_URL: string = url
+console.log("url is:  ", API_URL)
+
 // EXTERNAL CONTRACTS
 
 // ------ added by save script:

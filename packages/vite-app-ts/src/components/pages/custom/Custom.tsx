@@ -17,6 +17,12 @@ import { useAppContracts } from '~~/config/contractContext';
 import { create, urlSource } from 'ipfs-http-client'
 import axios from 'axios'
 
+// @ts-ignore
+import { API_URL } from '~~/models/constants/constants';
+
+console.log("api_url", API_URL)
+
+
 import pinataSDK from '@pinata/sdk'
 import { Token } from 'graphql';
 
