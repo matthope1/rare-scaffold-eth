@@ -12,7 +12,8 @@ import { BigNumber } from 'ethers';
 import React, { useState, FC, useContext, ReactNode } from 'react';
 
 import { useAppContracts } from '~~/config/contractContext';
-import { SetPurposeEvent } from '~~/generated/contract-types/YourContract';
+// TODO: import events from new contract?
+// import { SetPurposeEvent } from '~~/generated/contract-types/YourContract';
 
 export interface IExampleUIProps {
   mainnetProvider: StaticJsonRpcProvider | undefined;
@@ -25,9 +26,14 @@ export const ExampleUI: FC<IExampleUIProps> = (props) => {
   const ethersContext = useEthersContext();
 
   const yourContract = useAppContracts('YourContract', ethersContext.chainId);
-  const [purpose] = useContractReader(yourContract, yourContract?.purpose, [], yourContract?.filters.SetPurpose());
+  // const [purpose] = useContractReader(yourContract, yourContract?.purpose, [], yourContract?.filters.SetPurpose());
 
-  const [setPurposeEvents] = useEventListener<SetPurposeEvent>(yourContract, yourContract?.filters.SetPurpose(), 1);
+  const [owner] = useContractReader(yourContract, yourContract?.owner)
+  console.log("owner from contract", owner)
+
+
+
+  // const [setPurposeEvents] = useEventListener<SetPurposeEvent>(yourContract, yourContract?.filters.SetPurpose(), 1);
 
   const signer = ethersContext.signer;
   const address = ethersContext.account ?? '';
@@ -45,7 +51,7 @@ export const ExampleUI: FC<IExampleUIProps> = (props) => {
       */}
       <div style={{ border: '1px solid #cccccc', padding: 16, width: 400, margin: 'auto', marginTop: 64 }}>
         <h2>Example UI:</h2>
-        <h4>purpose: {purpose}</h4>
+        {/* <h4>purpose: {purpose}</h4> */}
         <Divider />
         <div style={{ margin: 8 }}>
           <Input
@@ -58,23 +64,25 @@ export const ExampleUI: FC<IExampleUIProps> = (props) => {
             onClick={async (): Promise<void> => {
               /* look how you call setPurpose on your contract: */
               /* notice how you pass a call back for tx updates too */
-              const result = tx?.(yourContract?.setPurpose(newPurpose), (update: any) => {
-                console.log('📡 Transaction Update:', update);
-                if (update && (update.status === 'confirmed' || update.status === 1)) {
-                  console.log(' 🍾 Transaction ' + update.hash + ' finished!');
-                  console.log(
-                    ' ⛽️ ' +
-                      update.gasUsed +
-                      '/' +
-                      (update.gasLimit || update.gas) +
-                      ' @ ' +
-                      parseFloat(update.gasPrice) / 1000000000 +
-                      ' gwei'
-                  );
-                }
-              });
-              console.log('awaiting metamask/web3 confirm result...', result);
-              console.log(await result);
+
+              // const result = tx?.(yourContract?.setPurpose(newPurpose), (update: any) => {
+              //   console.log('📡 Transaction Update:', update);
+              //   if (update && (update.status === 'confirmed' || update.status === 1)) {
+              //     console.log(' 🍾 Transaction ' + update.hash + ' finished!');
+              //     console.log(
+              //       ' ⛽️ ' +
+              //       update.gasUsed +
+              //       '/' +
+              //       (update.gasLimit || update.gas) +
+              //       ' @ ' +
+              //       parseFloat(update.gasPrice) / 1000000000 +
+              //       ' gwei'
+              //     );
+              //   }
+              // });
+
+              // console.log('awaiting metamask/web3 confirm result...', result);
+              // console.log(await result);
             }}>
             Set Purpose!
           </Button>
@@ -108,7 +116,11 @@ export const ExampleUI: FC<IExampleUIProps> = (props) => {
           <Button
             onClick={(): void => {
               /* look how you call setPurpose on your contract: */
-              void tx?.(yourContract?.setPurpose('🍻 Cheers'));
+              console.log("clicked!")
+              console.log("Your contract total supply:", yourContract?.totalSupply)
+
+              // void tx?.(yourContract?.balanceOf('0x8c554d6E5de0C01890Cee06262075e5176f6087B'))
+
             }}>
             Set Purpose to &quot;🍻 Cheers&quot;
           </Button>
@@ -133,8 +145,9 @@ export const ExampleUI: FC<IExampleUIProps> = (props) => {
           <Button
             onClick={(): void => {
               /* look how we call setPurpose AND send some value along */
-              void tx?.(yourContract?.setPurpose('💵 Paying for this one!'));
+              // void tx?.(yourContract?.setPurpose('💵 Paying for this one!'));
               /* this will fail until you make the setPurpose function payable */
+              console.log("clicked and value")
             }}>
             Set Purpose With Value
           </Button>
@@ -143,12 +156,13 @@ export const ExampleUI: FC<IExampleUIProps> = (props) => {
           <Button
             onClick={(): void => {
               /* you can also just craft a transaction and send it to the tx() transactor */
-              void tx?.({
-                to: yourContract?.address,
-                value: parseEther('0.001'),
-                data: yourContract?.interface?.encodeFunctionData?.('setPurpose', ['🤓 Whoa so 1337!']),
-              });
+              // void tx?.({
+              //   to: yourContract?.address,
+              //   value: parseEther('0.001'),
+              //   data: yourContract?.interface?.encodeFunctionData?.('setPurpose', ['🤓 Whoa so 1337!']),
+              // });
               /* this should throw an error about "no fallback nor receive function" until you add it */
+              console.log("clicked and craft")
             }}>
             Another Example
           </Button>
@@ -161,7 +175,7 @@ export const ExampleUI: FC<IExampleUIProps> = (props) => {
       */}
       <div style={{ width: 600, margin: 'auto', marginTop: 32, paddingBottom: 32 }}>
         <h2>Events:</h2>
-        <List
+        {/* <List
           bordered
           dataSource={setPurposeEvents}
           renderItem={(item: SetPurposeEvent): ReactNode => {
@@ -172,7 +186,7 @@ export const ExampleUI: FC<IExampleUIProps> = (props) => {
               </List.Item>
             );
           }}
-        />
+        /> */}
       </div>
     </div>
   );
