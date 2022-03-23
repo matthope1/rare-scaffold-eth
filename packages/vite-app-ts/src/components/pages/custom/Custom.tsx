@@ -24,7 +24,7 @@ console.log("api_url", API_URL)
 
 
 import pinataSDK from '@pinata/sdk'
-import { Token } from 'graphql';
+// import { Token } from 'graphql';
 
 const pinata = pinataSDK('715f1502776807f8f393', '179490478f6a28c034f93c502e1a146b23807bef1d11e1f08206619cc85f38e1');
 
